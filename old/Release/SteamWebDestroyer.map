@@ -1,0 +1,48 @@
+ SteamWebDestroyer
+
+ Timestamp is 568b5777 (Tue Jan 05 05:41:11 2016)
+
+ Preferred load address is 00400000
+
+ Start         Length     Name                   Class
+ 0001:00000000 00000054H .rdata                  CODE
+ 0001:00000054 000000cdH .text$mn                CODE
+ 0001:00000121 00000000H .edata                  CODE
+ 0002:00000000 0000012cH .bss                    DATA
+ 0003:00000000 00000028H .idata$5                DATA
+ 0003:00000028 00000014H .idata$2                DATA
+ 0003:0000003c 00000014H .idata$3                DATA
+ 0003:00000050 00000028H .idata$4                DATA
+ 0003:00000078 000000a8H .idata$6                DATA
+
+  Address         Publics by Value              Rva+Base       Lib:Object
+
+ 0000:00000000       ___guard_fids_count        00000000     <absolute>
+ 0000:00000000       ___guard_fids_table        00000000     <absolute>
+ 0000:00000000       ___guard_flags             00000000     <absolute>
+ 0001:00000000       ??_C@_0BD@KODBOENK@steamwebhelper?4exe?$AA@ 00401000     SteamWebDestroyer.obj
+ 0001:00000014       ??_C@_0O@EDCLHGCN@TSVNCache?4exe?$AA@ 00401014     SteamWebDestroyer.obj
+ 0001:00000024       ??_C@_0BC@GOEKLPEO@SpotifyHelper?4exe?$AA@ 00401024     SteamWebDestroyer.obj
+ 0001:00000038       ??_C@_0N@IGMPOBLD@?6Terminated?5?$AA@ 00401038     SteamWebDestroyer.obj
+ 0001:00000048       ?blacklisted_exes@@3PAPBDA 00401048     SteamWebDestroyer.obj
+ 0001:00000054       ?_WinMain@@YAHXZ           00401054 f   SteamWebDestroyer.obj
+ 0002:00000000       ?entry@@3UtagPROCESSENTRY32@@A 00402000     SteamWebDestroyer.obj
+ 0002:00000128       ?snapshot@@3PAXA           00402128     SteamWebDestroyer.obj
+ 0003:00000000       __imp__lstrcmpA@8          00403000     kernel32:KERNEL32.dll
+ 0003:00000004       __imp__Process32First@8    00403004     kernel32:KERNEL32.dll
+ 0003:00000008       __imp__SleepEx@8           00403008     kernel32:KERNEL32.dll
+ 0003:0000000c       __imp__OpenProcess@12      0040300c     kernel32:KERNEL32.dll
+ 0003:00000010       __imp__TerminateProcess@8  00403010     kernel32:KERNEL32.dll
+ 0003:00000014       __imp__Process32Next@8     00403014     kernel32:KERNEL32.dll
+ 0003:00000018       __imp__CreateToolhelp32Snapshot@8 00403018     kernel32:KERNEL32.dll
+ 0003:0000001c       __imp__OutputDebugStringA@4 0040301c     kernel32:KERNEL32.dll
+ 0003:00000020       __imp__CloseHandle@4       00403020     kernel32:KERNEL32.dll
+ 0003:00000024       \177KERNEL32_NULL_THUNK_DATA 00403024     kernel32:KERNEL32.dll
+ 0003:00000028       __IMPORT_DESCRIPTOR_KERNEL32 00403028     kernel32:KERNEL32.dll
+ 0003:0000003c       __NULL_IMPORT_DESCRIPTOR   0040303c     kernel32:KERNEL32.dll
+
+ entry point at        0000:00000000
+
+ Static symbols
+
+ 0003:00000112       .idata$6                   00403112     kernel32:KERNEL32.dll
