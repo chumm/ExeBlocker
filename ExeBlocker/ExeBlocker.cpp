@@ -24,7 +24,7 @@ void exitProgram(void);
 void displayExes(void);
 void displayMenu(void);
 void menuInput(void);
-
+void menuValidation(char* user_choice);
 
 int  _WinMain()
 {
@@ -41,7 +41,7 @@ void displayExes(void)
 {
 	if (!(exesToBlock.size() == -0))
 	{
-		cout << "Current Blocked Exes: ";
+		cout << "Current Blocked Exes\n";
 
 		for (int i = 0; i < exesToBlock.size(); ++i)
 		{
@@ -51,9 +51,35 @@ void displayExes(void)
 }
 void displayMenu(void)
 {
-	cout << "1) Run Exe Blocker\n2)Add Blacklisted Exes\n3)Remove Blacklisted Exes\n4)Exit Program";
+	system("cls");
+	cout << "1)Run Exe Blocker\n2)Add Blacklisted Exes\n3)Remove Blacklisted Exes\n4)Exit Program";
 }
 
+void menuValidation(char* user_choice)
+{
+	for (;;)
+	{
+		*user_choice = _getch();
+		switch (*user_choice)
+		{
+		case 'y':
+			return;
+			break;
+		case 'Y':
+			return;
+			break;
+		case 'n':
+			return;
+			break;
+		case 'N':
+			return;
+			break;
+		default:
+			break;
+		}
+	}
+	return;
+}
 void menuInput(void)
 {
 	char user_choice = ' ';
@@ -64,12 +90,16 @@ void menuInput(void)
 		{
 			case '1':
 				runBlockingExes();
+				break;
 			case '2':
 				addExes();
+				break;
 			case '3':
 				removeExes();
+				break;
 			case '4':
 				exitProgram();
+				break;
 		}
 	}
 	else
@@ -79,53 +109,94 @@ void menuInput(void)
 }
 void addExes(void)
 { 
-	system("cls");
-	cout << "Current blocked Exes:\n";
-	displayExes();
-
-	char user_choice = ' ';
-	cout << "Do you want to block an exe? Y/N?";
-	user_choice = _getch();
-	if (user_choice == 'y' || user_choice == 'Y')
+	for (;;)
 	{
-		cout << "Write exe name: ";
-		cin >> 
+		system("cls");
+		displayExes();
+
+		char user_choice = ' ';
+		cout << "Do you want to block an exe? Y/N?";
+		menuValidation(&user_choice);
+		if (user_choice == 'y' || user_choice == 'Y')
+		{
+			cout << "\nWrite exe name: ";
+			std::string exeName = "";
+			cin >> exeName;
+
+			bool added_exe = false;
+			std::string::size_type pos = exeName.find(".exe");
+			if (pos == std::string::npos)
+			{
+				cout << "\nNo extension found, was this a mistake? Y/N";
+				menuValidation(&user_choice);
+				if (user_choice == 'y' || user_choice == 'Y')
+				{
+					exeName.append(".exe");
+				}
+				else
+				{
+					cout << "\nDo you still want to continue? Y/N";
+					menuValidation(&user_choice);
+					if (user_choice == 'y' || user_choice == 'Y')
+					{
+						added_exe = true;
+					}
+				}
+			}
+			else
+			{
+				added_exe = true;
+			}
+			if (added_exe == true)
+			{
+				exesToBlock.push_back(exeName);
+				added_exe = false;
+			}
+		}
+		else
+		{
+			cout << "\nDo you wish to exit? Y/N";
+			menuValidation(&user_choice);
+			if (user_choice == 'y' || user_choice == 'Y')
+			{
+				displayMenu();
+				return;
+			}
+		}
 	}
-	else
-		return;
 }
 void removeExes(void){ system("cls"); }
 void exitProgram(void){ system("cls"); }
-void runBlockingExes(void){ system("cls"); }
-//		{
-//			for (;;)
-//			{
-//				entry.dwSize = sizeof(PROCESSENTRY32);
-//				SleepEx(100, 0);
-//				snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, NULL);
-//
-//				for (int i = 0; i < 3; ++i)
-//				{
-//					if (Process32First(snapshot, &entry) == TRUE)
-//					{
-//						while (Process32Next(snapshot, &entry) == TRUE)
-//						{
-//							if (lstrcmpA(entry.szExeFile, blacklisted_exes[i]) == 0)
-//							{
-//								CloseHandle(snapshot);
-//								snapshot = OpenProcess(PROCESS_ALL_ACCESS, FALSE, entry.th32ProcessID);
-//
-//#ifndef DEBUG
-//								OutputDebugStringA("\nTerminated ");
-//								OutputDebugStringA(blacklisted_exes[i]);
-//#endif
-//
-//								TerminateProcess(snapshot, 9);
-//								CloseHandle(snapshot);
-//
-//							}
-//						}
-//					}
-//				}
-//			}
-//		}
+void runBlockingExes(void)
+{
+	for (;;)
+	{
+		entry.dwSize = sizeof(PROCESSENTRY32);
+		SleepEx(100, 0);
+		snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, NULL);
+
+		for (int i = 0; i < exesToBlock.size(); ++i)
+		{
+			if (Process32First(snapshot, &entry) == TRUE)
+			{
+				while (Process32Next(snapshot, &entry) == TRUE)
+				{
+					if (strcmp(entry.szExeFile, exesToBlock[i].c_str()) == 0)
+					{
+						CloseHandle(snapshot);
+						snapshot = OpenProcess(PROCESS_ALL_ACCESS, FALSE, entry.th32ProcessID);
+
+						#ifndef DEBUG
+							OutputDebugStringA("\nTerminated ");
+							OutputDebugStringA(exesToBlock[i].c_str());
+						#endif
+
+						TerminateProcess(snapshot, 9);
+						CloseHandle(snapshot);
+
+					}
+				}
+			}
+		}
+	}
+}
